@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,8 +40,9 @@ public class User implements UserDetails {
 	private boolean active = false;
 	private boolean blocked = false;
 
-	@OneToMany(fetch = FetchType.EAGER) // UM USUÁRIO PODE TER UM PERFIL, E 1 PERFIL PODE TÁ ATRELADO A VARIOS USUÁRIOS;
-	private List<Profile> profiles = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="profile_id")
+	private Profile profile ;
 
 	@Override
 	public int hashCode() {
@@ -65,7 +68,7 @@ public class User implements UserDetails {
 			return false;
 		return true;
 	}
-	
+
 	public User(String name, String email, String passwordUser) {
 		super();
 		this.name = name;
@@ -108,5 +111,4 @@ public class User implements UserDetails {
 		return false;
 	}
 
-	
 }
