@@ -65,6 +65,13 @@ public class User implements UserDetails {
 			return false;
 		return true;
 	}
+	
+	public User(String name, String email, String passwordUser) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.passwordUser = passwordUser;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -101,4 +108,5 @@ public class User implements UserDetails {
 		return false;
 	}
 
+	
 }
