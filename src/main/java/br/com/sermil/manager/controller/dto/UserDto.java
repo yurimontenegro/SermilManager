@@ -28,7 +28,7 @@ public class UserDto {
 		this.email = user.getEmail();
 		this.creationDate = user.getCreationDate();
 		this.contaAtiva = user.isActive();
-		this.profile = user.getProfile();
+		//this.profile = user.getProfile();
 	}
 
 	public static Page<UserDto> convert(Page<User> users) {

@@ -2,14 +2,14 @@ package br.com.sermil.manager.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -38,9 +38,8 @@ public class User implements UserDetails {
 	private boolean active = false;
 	private boolean blocked = false;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "profile_id")
-	private Profile profile;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Profile> profiles;
 
 	@Override
 	public int hashCode() {
@@ -76,7 +75,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return profiles;
 	}
 
 	@Override

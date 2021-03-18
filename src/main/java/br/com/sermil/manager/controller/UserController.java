@@ -19,7 +19,6 @@ public class UserController {
 
 	@Autowired
 	UserRepository userRepository;
-	
 	@GetMapping // LISTA OS USUÁRIOS;
 	public Page<UserDto> list(
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable paginacao) {
