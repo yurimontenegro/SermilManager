@@ -28,7 +28,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String token = recuperarToken(request);  
+		String token = retrieveToken(request);  // RETRIEVE = RECUPERAR
 		boolean valid = tokenService.isValidToken(token);
 		if (valid) {
 			authenticateClient(token);
@@ -38,14 +38,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private void authenticateClient(String token) {
-		Long userId = tokenService.getUserId(token);       //PEGUEI O ID DO TOKEN;
+		Long userId = tokenService.getUserId(token);    //PEGUEI O ID DO TOKEN;
 		User user = repository.findById(userId).get();  //RECUPEREI O OBJETO USUÁRIO USANDO O ID
 		
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication); //FORÇA A AUTENTICAÇÃO;
 	}
 
-	private String recuperarToken(HttpServletRequest request) {
+	private String retrieveToken(HttpServletRequest request) { //RECUPERAR TOKEN
 		String token = request.getHeader("Authorization");
 		if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) { //SE O TOKEN FOR NULO, EM BRANCO OU NÃO COMEÇAR COM BEARER:
 		return null;

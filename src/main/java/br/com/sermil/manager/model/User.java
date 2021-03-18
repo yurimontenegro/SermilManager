@@ -1,9 +1,7 @@
 package br.com.sermil.manager.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -28,21 +25,22 @@ import lombok.NoArgsConstructor;
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
 	private String passwordUser;
-	private LocalDateTime creationDate;
-	private int services;
+	private String cpf = null;
+	private int idade = 0;
+	private LocalDateTime creationDate = LocalDateTime.now();
 	private boolean active = false;
 	private boolean blocked = false;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="profile_id")
-	private Profile profile ;
+	@JoinColumn(name = "profile_id")
+	private Profile profile;
 
 	@Override
 	public int hashCode() {
@@ -83,32 +81,32 @@ public class User implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return null;
+		return this.passwordUser;
 	}
 
 	@Override
 	public String getUsername() {
-		return null;
+		return this.email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return false;
+		return true;
 	}
 
 }

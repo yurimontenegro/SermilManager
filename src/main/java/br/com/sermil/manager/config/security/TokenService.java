@@ -20,7 +20,7 @@ public class TokenService {
 	@Value("${forum.jwt.secret}")     //VALOR BUSCADO NO ARQUIVO APPLICATION.PROPERTIES - SENHA
 	private String secret;
 	
-	public String gerarToken(Authentication authentication) {
+	public String generateToken(Authentication authentication) {
 		User logado = (User) authentication.getPrincipal(); //RECUPERAR O USUÁRIO QUE ESTÁ LOGADO;
 		Date today = new Date();
 		Date dataExpiracao = new Date(today.getTime() + Long.parseLong(expiration)); //DATA E HORA DO LOGIN + TEMPO DE EXPIRAÇÃO;
