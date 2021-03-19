@@ -49,7 +49,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 		.antMatchers(HttpMethod.POST, "/login").permitAll()                   //PERMITINDO LOGIN;
 		.antMatchers(HttpMethod.POST, "/register").permitAll()                //PERMITINDO REGISTRO;   
 		.antMatchers(HttpMethod.GET, "/").permitAll()    	                  //PERMITINDO HOME;
-		.antMatchers(HttpMethod.GET, "/users").hasRole("USUARIO")   	      //PERMITINDO HOME;
+		.antMatchers(HttpMethod.GET, "/users").hasRole("ADMINISTRADOR")   	      //PERMITINDO HOME;
 		
 		.anyRequest().authenticated()
 		.and().csrf().disable()

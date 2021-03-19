@@ -10,25 +10,25 @@ import com.sun.istack.NotNull;
 import br.com.sermil.manager.model.User;
 import lombok.Getter;
 
+@Getter
 public class RegisterForm {
 
 	@NotNull
 	@NotEmpty
-	@Getter
 	private String name;
 
 	@Email
-	@Getter
 	private String email;
 
 	@NotNull
 	@NotEmpty
-	@Getter
 	protected String password;
 
 	public User convert() {
-		User user = new User(name, email, new BCryptPasswordEncoder().encode(password));
-		return user;
+		return User.builder().
+				name(name).
+				email(email).
+				passwordUser(new BCryptPasswordEncoder().encode(password)).build();
 	}
 
 }
