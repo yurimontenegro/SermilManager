@@ -1,20 +1,25 @@
 package br.com.sermil.manager.model;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,24 +27,33 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @NoArgsConstructor
 @Data
+@Builder
+@AllArgsConstructor
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
 	private String passwordUser;
+	@Builder.Default
 	private String cpf = null;
+	@Builder.Default
 	private int idade = 0;
+	@Builder.Default
 	private LocalDateTime creationDate = LocalDateTime.now();
+	@Builder.Default
 	private boolean active = false;
+	@Builder.Default
 	private boolean blocked = false;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Profile> profiles;
+	
+	@Builder.Default
+	@JoinTable(name = "profile", joinColumns =	@JoinColumn(name = "profile_id"))
+	@Enumerated(EnumType.STRING)
+	private ProfileEnum profile = ProfileEnum.ROLE_USUARIO;
 
 	@Override
 	public int hashCode() {
@@ -64,18 +78,6 @@ public class User implements UserDetails {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
-
-	public User(String name, String email, String passwordUser) {
-		super();
-		this.name = name;
-		this.email = email;
-		this.passwordUser = passwordUser;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return profiles;
 	}
 
 	@Override
@@ -106,6 +108,11 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return Arrays.asList(new SimpleGrantedAuthority(this.profile.name()));
 	}
 
 }
