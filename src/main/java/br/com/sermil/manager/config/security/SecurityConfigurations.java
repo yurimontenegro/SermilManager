@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import br.com.sermil.manager.repository.UserRepository;
 
@@ -45,11 +46,13 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception { //CONFIGURAÇÕES DE AUTORIZAÇÃO - QUEM PODE ACESSAR URL, ETC.
 
-		http.authorizeRequests()
+		http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+		.and().csrf().disable()
+		.authorizeRequests()
 		.antMatchers(HttpMethod.POST, "/login").permitAll()                   //PERMITINDO LOGIN;
 		.antMatchers(HttpMethod.POST, "/register").permitAll()                //PERMITINDO REGISTRO;   
 		.antMatchers(HttpMethod.GET, "/").permitAll()    	                  //PERMITINDO HOME;
-		.antMatchers(HttpMethod.GET, "/users").hasRole("ADMINISTRADOR")   	      //PERMITINDO HOME;
+		.antMatchers(HttpMethod.GET, "/users").permitAll() 	      			  //PERMITINDO USERS;
 		
 		.anyRequest().authenticated()
 		.and().csrf().disable()

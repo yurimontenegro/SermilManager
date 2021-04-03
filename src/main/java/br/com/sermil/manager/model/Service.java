@@ -12,10 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "service")
 @Data
+@NoArgsConstructor
 public class Service {
 
 	@Id
@@ -53,6 +55,15 @@ public class Service {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+
+	public Service(Condominium condominium, User technician, LocalDateTime realizationDate, String perfomedService,
+			StatusService status) {
+		this.condominium = condominium;
+		this.technician = technician;
+		this.realizationDate = realizationDate;
+		this.perfomedService = perfomedService;
+		this.status = status;
 	}
 
 }

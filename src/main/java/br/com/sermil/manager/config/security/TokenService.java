@@ -21,13 +21,18 @@ public class TokenService {
 	private String secret;
 	
 	public String generateToken(Authentication authentication) {
+		
 		User logado = (User) authentication.getPrincipal(); //RECUPERAR O USUÁRIO QUE ESTÁ LOGADO;
 		Date today = new Date();
 		Date dataExpiracao = new Date(today.getTime() + Long.parseLong(expiration)); //DATA E HORA DO LOGIN + TEMPO DE EXPIRAÇÃO;
 		
 		return Jwts.builder()
+				
 				.setIssuer("API Sermil Manager")            //QUEM ESTÁ GERANDO O TOKEN;
-				.setSubject(logado.getId().toString())      //A QUEM PERTENCE O TOKEN;
+				.claim("id", logado.getId().toString())     //A QUEM PERTENCE O TOKEN;
+				.claim("name", logado.getName())            //A QUEM PERTENCE O TOKEN;
+				.claim("email", logado.getEmail())
+				.claim("profile", logado.getProfile())
 				.setIssuedAt(today)                         //DATA DO LOGIN;
 				.setExpiration(dataExpiracao)               //TEMPO DE EXPIRAÇÃO DE LOGIN;
 				.signWith(SignatureAlgorithm.HS256, secret) //ALGORÍTMO DE CRIPTOGRAFIA E A SENHA DA MINHA APLICAÇÃO, PARA ASSINATURA;

@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import br.com.sermil.manager.controller.dto.TokenDto;
 import br.com.sermil.manager.controller.form.LoginForm;
 import br.com.sermil.manager.repository.UserRepository;
 
+@CrossOrigin("http://localhost:4200/services/create")
 @RestController
 @RequestMapping("/login")
 public class LoginController {

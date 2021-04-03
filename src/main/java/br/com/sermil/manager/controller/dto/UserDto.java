@@ -12,15 +12,10 @@ import lombok.Getter;
 public class UserDto {
 	
 	private Long id;
-	
 	private String name;
-	
 	private String email;
-	
 	private ProfileEnum profile;
-	
 	private LocalDateTime creationDate;
-	
 	private boolean contaAtiva;
 
 	public UserDto(User user) {
